@@ -6,6 +6,7 @@
 *.lo
 *.o
 *.obj
+*.pdb
 
 # Precompiled Headers
 *.gch
@@ -47,10 +48,22 @@ SourceArt/**/*.tga
 
 # Binary Files
 Binaries/*
-Plugins/**/Binaries/*
+Plugins/*/Binaries/*
 
 # Builds
 Build/*
+./Build/*
+
+#Logs
+Logs/*
+Saved/*
+GargoyleCraft/Saved/*
+GargoyleCraft/Saved/
+
+#intermediate
+Intermediate/*
+GargoyleCraft/Intermediate/*
+GargoyleCraft/Intermediate/
 
 # Whitelist PakBlacklist-<BuildConfiguration>.txt files
 !Build/*/
@@ -68,7 +81,7 @@ Saved/*
 
 # Compiled source files for the engine to use
 Intermediate/*
-Plugins/**/Intermediate/*
+Plugins/*/Intermediate/*
 
 # Cache files for the editor to use
 DerivedDataCache/*
