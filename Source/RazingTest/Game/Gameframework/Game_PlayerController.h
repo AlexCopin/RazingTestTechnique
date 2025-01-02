@@ -4,8 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
-#include "Game_PlayerController.generated.h"
+#include <RazingTest/Game/Actor/Board.h>
 
+#include "Game_PlayerController.generated.h"
 /**
  * 
  */
@@ -13,5 +14,12 @@ UCLASS()
 class RAZINGTEST_API AGame_PlayerController : public APlayerController
 {
 	GENERATED_BODY()
-	
+public:
+	void BeginPlay() override;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	TSubclassOf<ABoard> BoardClass;
+
+	UPROPERTY()
+	TObjectPtr<ABoard> Board;
 };
