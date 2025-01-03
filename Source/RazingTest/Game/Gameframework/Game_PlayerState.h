@@ -13,5 +13,8 @@ UCLASS()
 class RAZINGTEST_API AGame_PlayerState : public APlayerState
 {
 	GENERATED_BODY()
-	
+public:
+
+	UFUNCTION()
+	virtual void BeginPlay() override;
 };

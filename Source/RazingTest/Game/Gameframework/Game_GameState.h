@@ -9,6 +9,7 @@
 #include "Game_GameState.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnRulesSet, UPDA_GameRulesData*, Rules);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnBeginGame);
 
 
 UCLASS()
@@ -29,4 +30,12 @@ public:
 
 	UPROPERTY(BlueprintAssignable)
 	FOnRulesSet OnRulesSet;
+
+	UPROPERTY(ReplicatedUsing=OnRep_bGameBegun)
+	bool bGameBegun = false;
+	UFUNCTION()
+	void OnRep_bGameBegun();
+
+	UPROPERTY(BlueprintAssignable, BlueprintReadWrite)
+	FOnBeginGame OnBeginGame;
 };

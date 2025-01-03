@@ -4,7 +4,21 @@
 #include "Board.h"
 #include <RazingTest/Game/Gameframework/Game_GameState.h>
 #include <RazingTest/Game/Data/PDA_GameRulesData.h>
+#include "DrawDebugHelpers.h"
+#include <RazingTest/Game/Gameframework/Game_PlayerController.h>
 
+ABoard::ABoard()
+{
+	RootComp = CreateDefaultSubobject<UArrowComponent>("RootComponent");
+	SetRootComponent(RootComp);
+
+	FAttachmentTransformRules rules(EAttachmentRule::KeepRelative, EAttachmentRule::KeepRelative, EAttachmentRule::KeepRelative, false);
+
+	DeckPlacement = CreateDefaultSubobject<UArrowComponent>("DeckPlacement");
+	DeckPlacement->AttachToComponent(RootComp, rules);
+	HandPlacement = CreateDefaultSubobject<UArrowComponent>("HandPlacement");
+	HandPlacement->AttachToComponent(RootComp, rules);
+}
 
 // Called when the game starts or when spawned
 void ABoard::BeginPlay()
@@ -30,5 +44,16 @@ void ABoard::BeginPlay()
 		auto enemySlot = GetWorld()->SpawnActor<ABoardSlot>(SlotClass, newLocationMirrored, GetActorRotation(), spawnParam);
 		EnemySlots.AddUnique(enemySlot);
 		enemySlot->NumSlot = i;
+	}
+}
+
+void ABoard::NotifyActorOnClicked(FKey ButtonPressed)
+{
+	if(ButtonPressed == EKeys::LeftMouseButton)
+	{
+		if(auto PC = Cast<AGame_PlayerController>(GetOwner()))
+		{
+			PC->S_TryDrawCard();
+		}
 	}
 }

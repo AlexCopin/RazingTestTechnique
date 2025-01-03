@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "BoardSlot.h"
+#include "Components/ArrowComponent.h"
 
 #include "Board.generated.h"
 
@@ -27,4 +28,17 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	TSubclassOf<ABoardSlot> SlotClass;
+
+	//To make something working fast for the prototype, use normal EnhancedInputs for inputs in correct case
+	virtual void NotifyActorOnClicked(FKey ButtonPressed = EKeys::LeftMouseButton) override;
+
+public:
+	ABoard();
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TObjectPtr<USceneComponent> RootComp;
+	//Board placements
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TObjectPtr<UArrowComponent> DeckPlacement;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TObjectPtr<UArrowComponent> HandPlacement;
 };

@@ -2,26 +2,44 @@
 
 
 #include "Card.h"
+#include <Net/UnrealNetwork.h>
 
-// Sets default values
 ACard::ACard()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
-
+	SetReplicates(true);
 }
 
 // Called when the game starts or when spawned
 void ACard::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
-// Called every frame
-void ACard::Tick(float DeltaTime)
+void ACard::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
-	Super::Tick(DeltaTime);
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+	DOREPLIFETIME(ACard, Value);
+}
 
+void ACard::OnRep_Value()
+{
+	OnCardValueSet.Broadcast(Value);
+}
+
+void ACard::SetValue(int NewValue)
+{
+	Value = NewValue;
+	OnCardValueSet.Broadcast(Value);
+}
+
+void ACard::S_AddToValue_Implementation(int Added)
+{
+	Value += Added;
+}
+
+void ACard::S_SetValue_Implementation(int NewValue)
+{
+	Value = NewValue;
+	OnCardValueSet.Broadcast(Value);
 }
 

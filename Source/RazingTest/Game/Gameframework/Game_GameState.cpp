@@ -9,9 +9,14 @@ void AGame_GameState::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutL
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 	DOREPLIFETIME(AGame_GameState, PDA_GameRulesData);
+	DOREPLIFETIME(AGame_GameState, bGameBegun);
 }
 void AGame_GameState::OnRep_PDA_GameRuleData()
 {
 	OnRulesSet.Broadcast(PDA_GameRulesData);
-	GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Green, TEXT("OnRep_PDA_GameRuleData"));
+}
+
+void AGame_GameState::OnRep_bGameBegun()
+{
+	OnBeginGame.Broadcast();
 }

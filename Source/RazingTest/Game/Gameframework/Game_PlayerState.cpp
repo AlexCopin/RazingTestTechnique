@@ -3,3 +3,7 @@
 
 #include "Game_PlayerState.h"
 
+void AGame_PlayerState::BeginPlay()
+{
+	Super::BeginPlay();
+}

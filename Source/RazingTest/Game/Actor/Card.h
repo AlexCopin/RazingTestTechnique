@@ -6,24 +6,37 @@
 #include "GameFramework/Actor.h"
 #include "Card.generated.h"
 
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnCardValueSet, int, Value);
+
 UCLASS()
 class RAZINGTEST_API ACard : public AActor
 {
 	GENERATED_BODY()
 	
-public:	
-	// Sets default values for this actor's properties
-	ACard();
-
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
-
+public:
+	ACard();
+	//Replication
+	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 	UPROPERTY(EditInstanceOnly, BlueprintReadWrite)
 	FVector Position;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, ReplicatedUsing=OnRep_Value)
+	int Value;
+	UFUNCTION()
+	void OnRep_Value();
+
+	UFUNCTION(Server, Reliable)
+	void S_AddToValue(int Added);
+	UFUNCTION(Server, Reliable)
+	void S_SetValue(int NewValue);
+	UFUNCTION()
+	void SetValue(int NewValue);
+
+	UPROPERTY(BlueprintAssignable, BlueprintReadWrite)
+	FOnCardValueSet OnCardValueSet;
 };
